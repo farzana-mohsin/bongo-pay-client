@@ -1,9 +1,11 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import { useContext } from "react";
+import { AuthContext } from "../Components/AuthProvider";
 
 const Login = () => {
+  const { user, setUser } = useContext(AuthContext);
   const handleLogIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -25,8 +27,10 @@ const Login = () => {
       body: JSON.stringify(userData),
     })
       .then((res) => res.json())
-      .then(() => {
+      .then((data) => {
+        setUser(data);
         toast.success("You have logged in successfully!");
+
         setTimeout(function () {
           // navigate(from);
         }, 2000);
@@ -38,6 +42,7 @@ const Login = () => {
 
   return (
     <div className='mb-10 lg:mb-2'>
+      <h2>user: {user?.email}</h2>
       {/* <Helmet>
       <title>Holity | Login</title>
     </Helmet> */}
