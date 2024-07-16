@@ -25,18 +25,14 @@ const Login = () => {
       body: JSON.stringify(userData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            title: "Success!",
-            text: "Request submitted successfully",
-            icon: "success",
-            confirmButtonText: "Go Back",
-          });
-          // navigate("/manage-my-posts");
-        } else {
-          toast.error("Credentials don't match, please try again");
-        }
+      .then(() => {
+        toast.success("You have logged in successfully!");
+        setTimeout(function () {
+          // navigate(from);
+        }, 2000);
+      })
+      .catch(() => {
+        toast.error("Credentials don't match, please try again");
       });
   };
 
@@ -85,6 +81,7 @@ const Login = () => {
               <span className='label-text text-white'>Pin</span>
             </label>
             <input
+              name='pin'
               type='text'
               pattern='\d{1,5}'
               placeholder='Insert your pin'

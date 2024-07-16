@@ -1,9 +1,6 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { MdRemoveRedEye } from "react-icons/md";
-// import { IoIosEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
-// import { useState } from "react";
 import Swal from "sweetalert2";
 
 const Register = () => {
@@ -27,7 +24,10 @@ const Register = () => {
     };
 
     if (pin.length < 5) {
-      toast.error("Pin should have at least 5 characters.");
+      toast.error("Pin should have exactly 5 characters.");
+      return;
+    } else if (pin.length > 5) {
+      toast.error("Pin should have exactly 5 characters.");
       return;
     } else if (!/\b\d{5}\b/g.test(pin)) {
       toast.error("Pin should have all the numbers");
@@ -40,21 +40,19 @@ const Register = () => {
       // credentials: "include",
       headers: {
         "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(userData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            title: "Success!",
-            text: "Request submitted successfully",
-            icon: "success",
-            confirmButtonText: "Go Back",
-          });
-          // navigate("/manage-my-posts");
-        }
+      .then(() => {
+        toast.success("You have registered successfully!");
+        setTimeout(function () {
+          // navigate(from);
+        }, 2000);
+      })
+      .catch(() => {
+        toast.error("please try again");
       });
   };
 
@@ -117,7 +115,7 @@ const Register = () => {
             </label>
             <input
               name='phone'
-              type='number'
+              type='text'
               placeholder='Your contact number'
               className='w-full px-3 py-2 border-2 rounded-md  border-orange-400 bg-gray-100 text-gray-900 focus:border-amber-800'
               required
@@ -131,7 +129,7 @@ const Register = () => {
               name='pin'
               type='text'
               pattern='\d{1,5}'
-              placeholder='Insert your pin'
+              placeholder='Insert your pin in numbers'
               className='w-full px-3 py-2 border-2 rounded-md  border-orange-400 bg-gray-100 text-gray-900 focus:border-amber-800'
               required
             />
