@@ -1,12 +1,13 @@
 import { ToastContainer, toast } from "react-toastify";
-import { MdRemoveRedEye } from "react-icons/md";
-import { IoIosEyeOff } from "react-icons/io";
+import "react-toastify/dist/ReactToastify.css";
+// import { MdRemoveRedEye } from "react-icons/md";
+// import { IoIosEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 import Swal from "sweetalert2";
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   // const navigate = useNavigate();
   // const from = "/";
@@ -28,8 +29,8 @@ const Register = () => {
     if (pin.length < 5) {
       toast.error("Pin should have at least 5 characters.");
       return;
-    } else if (!/[^\d+$]/.test(pin)) {
-      toast.error("Password should contain only numbers");
+    } else if (!/\b\d{5}\b/g.test(pin)) {
+      toast.error("Pin should have all the numbers");
       return;
     }
 
@@ -128,17 +129,18 @@ const Register = () => {
             </label>
             <input
               name='pin'
-              type={showPassword ? "text" : "password"}
+              type='text'
+              pattern='\d{1,5}'
               placeholder='password'
               className='w-full px-3 py-2 border-2 rounded-md  border-orange-400 bg-gray-100 text-gray-900 focus:border-amber-800'
               required
             />
-            <span
+            {/* <span
               className='absolute top-12 right-3 text-black text-lg'
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <IoIosEyeOff /> : <MdRemoveRedEye />}
-            </span>
+            </span> */}
           </div>
           <div className='form-control py-3'>
             <button className='w-full px-8 py-3 font-semibold bg-opacity-80 border-white btn  bg-[#ff9954] text-white lg:px-4 lg:py-2 border-2 text-sm rounded-xl  hover:bg-[#727C82]'>
