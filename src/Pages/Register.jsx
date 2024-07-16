@@ -131,7 +131,7 @@ const Register = () => {
               name='pin'
               type='text'
               pattern='\d{1,5}'
-              placeholder='password'
+              placeholder='Insert your pin'
               className='w-full px-3 py-2 border-2 rounded-md  border-orange-400 bg-gray-100 text-gray-900 focus:border-amber-800'
               required
             />
