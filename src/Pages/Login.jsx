@@ -3,8 +3,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Components/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const handleLogIn = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const Login = () => {
         toast.success("You have logged in successfully!");
 
         setTimeout(function () {
-          // navigate(from);
+          navigate("/cash-in");
         }, 2000);
       })
       .catch(() => {

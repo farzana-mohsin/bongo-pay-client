@@ -3,6 +3,7 @@ import Register from "../Pages/Register";
 import Login from "../Pages/Login";
 import Root from "../Components/Root";
 import Home from "../Pages/Home";
+import CashIn from "../Dashboard/User/CashIn";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/cash-in",
+        element: <CashIn></CashIn>,
       },
     ],
   },
