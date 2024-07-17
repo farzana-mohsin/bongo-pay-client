@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const UserManagement = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -12,57 +13,74 @@ const UserManagement = () => {
     fetchData();
   }, []);
 
-  // const handleActiveUser = (email) => {
-  //   const makeAdmin = {
-  //     role: "admin",
-  //     status: "complete",
-  //   };
+  const handleActiveUser = (email) => {
+    const activeUser = {
+      email: email,
+      role: "user",
+    };
 
-  //   axiosSecure
-  //     .patch(`pending-requests?email=${email}`, makeAdmin)
-  //     .then((res) => {
-  //       if (res.data.modifiedCount > 0) {
-  //         Swal.fire({
-  //           position: "center",
-  //           icon: "success",
-  //           title: `The status has been updated to Admin`,
-  //           showConfirmButton: false,
-  //           timer: 2500,
-  //         });
+    fetch(`${import.meta.env.VITE_API_URL}/users`, {
+      method: "PATCH",
+      // credentials: "include",
+      headers: {
+        "content-type": "application/json",
+        // "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(activeUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `The user is now active!`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
 
-  //         const remainingPendingRequests = pendingRequests.filter(
-  //           (request) => request.email !== email
-  //         );
-  //         setPendingRequests(remainingPendingRequests);
-  //       }
-  //     });
-  // };
+          const remainingPendingRequests = pendingRequests.filter(
+            (request) => request.email !== email
+          );
+          setPendingRequests(remainingPendingRequests);
+        }
+      });
+  };
 
-  // const handleMakeTourGuide = (email) => {
-  //   const makeTourGuide = {
-  //     role: "guide",
-  //     status: "complete",
-  //   };
+  const handleActiveAgent = (email) => {
+    const activeAgent = {
+      email: email,
+      role: "agent",
+    };
 
-  //   axiosSecure
-  //     .patch(`pending-requests?email=${email}`, makeTourGuide)
-  //     .then((res) => {
-  //       if (res.data.modifiedCount > 0) {
-  //         Swal.fire({
-  //           position: "center",
-  //           icon: "success",
-  //           title: `The status has been updated to Tour guide`,
-  //           showConfirmButton: false,
-  //           timer: 2500,
-  //         });
+    fetch(`${import.meta.env.VITE_API_URL}/users`, {
+      method: "PATCH",
+      // credentials: "include",
+      headers: {
+        "content-type": "application/json",
+        // "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(activeAgent),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `The agent is active now!`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
 
-  //         const remainingPendingRequests = pendingRequests.filter(
-  //           (request) => request.email !== email
-  //         );
-  //         setPendingRequests(remainingPendingRequests);
-  //       }
-  //     });
-  // };
+          const remainingPendingRequests = pendingRequests.filter(
+            (request) => request.email !== email
+          );
+          setPendingRequests(remainingPendingRequests);
+        }
+      });
+  };
 
   return (
     <div>
@@ -76,7 +94,7 @@ const UserManagement = () => {
             <tr>
               <th>#</th>
               <th>Requester&apos;s Email</th>
-              <th>Status</th>
+              {/* <th>Status</th> */}
               <th>Action</th>
               <th>Action</th>
             </tr>
@@ -86,7 +104,7 @@ const UserManagement = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{request?.email}</td>
-                <td>{request.status}</td>
+                {/* <td>{request.status}</td> */}
                 {/* 
             <td>
               {request.status === "review" ? (
