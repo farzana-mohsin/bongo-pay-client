@@ -17,7 +17,7 @@ const CashIn = () => {
         "content-type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({ email: user?.email, amount }),
+      body: JSON.stringify({ email: user?.email, amount, status: "pending" }),
     })
       .then((res) => res.json())
       .then(() => {
