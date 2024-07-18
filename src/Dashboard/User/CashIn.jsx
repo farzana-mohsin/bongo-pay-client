@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Components/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CashIn = () => {
   const { user } = useContext(AuthContext);
+  const [balance, setBalance] = useState(40);
 
   const handleCashIn = (e) => {
     e.preventDefault();
@@ -28,6 +29,13 @@ const CashIn = () => {
         }, 2000);
       });
   };
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/users/${user?.email}`, {
+      // credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => setBalance(data.balance));
+  }, [user?.email]);
 
   return (
     <div>
@@ -42,6 +50,8 @@ const CashIn = () => {
           value='Add Amount'
         />
       </form>
+      <h1>status: Pending</h1>
+      <h1>balance: ${balance}</h1>
       <ToastContainer />
     </div>
   );
