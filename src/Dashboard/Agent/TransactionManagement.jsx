@@ -4,10 +4,12 @@ import { useState } from "react";
 
 const TransactionManagement = () => {
   const loader = useLoaderData();
-  const [allRequests] = useState(loader);
+  const [allRequests, setAllRequests] = useState(loader);
 
-  const handleAccept = (_id) => {
+  const handleAccept = (email, _id, amount) => {
     const reviewStatus = {
+      email,
+      amount,
       status: "approved",
     };
     fetch(`${import.meta.env.VITE_API_URL}/cash-in/${_id}`, {
@@ -15,7 +17,7 @@ const TransactionManagement = () => {
       // credentials: "include",
       headers: {
         "content-type": "application/json",
-        // "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(reviewStatus),
     })
@@ -28,8 +30,13 @@ const TransactionManagement = () => {
             icon: "success",
             confirmButtonText: "Go Back",
           });
-          // navigate("/manage-my-posts");
         }
+
+        const newAllRequests = allRequests.filter(
+          (request) => request._id != _id
+        );
+
+        setAllRequests(newAllRequests);
       });
   };
 
@@ -37,7 +44,7 @@ const TransactionManagement = () => {
     <div>
       <div className='overflow-x-auto'>
         <h2 className='text-3xl text-center mb-16 bg-[#ffcc05] p-2'>
-          Requests To Review: {allRequests.length}
+          Requests To Review: {allRequests?.length}
         </h2>
         <table className='table w-full'>
           {/* head */}
@@ -51,25 +58,32 @@ const TransactionManagement = () => {
           </thead>
 
           <tbody>
-            {allRequests.map((request, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{request.email.replace("'", "&apos;")}</td>
-                <td>${request.amount}</td>
-                {/* <td>
+            {allRequests &&
+              allRequests.map((request, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{request.email}</td>
+                  <td>${request.amount}</td>
+                  {/* <td>
 
                   {request.status}
                 </td> */}
-                <td>
-                  {request.status === "pending" ? (
-                    <div className='flex gap-3'>
-                      <button
-                        onClick={() => handleAccept(request._id)}
-                        className='btn btn-outline rounded-none'
-                      >
-                        Accept
-                      </button>
-                      {/* <div>
+                  <td>
+                    {request.status === "pending" ? (
+                      <div className='flex gap-3'>
+                        <button
+                          onClick={() =>
+                            handleAccept(
+                              request.email,
+                              request._id,
+                              request.amount
+                            )
+                          }
+                          className='btn btn-outline rounded-none'
+                        >
+                          Accept
+                        </button>
+                        {/* <div>
                         <button
                           onClick={() => handleReject(item._id)}
                           className='btn btn-outline rounded-none'
@@ -77,22 +91,22 @@ const TransactionManagement = () => {
                           Reject
                         </button>
                       </div> */}
-                    </div>
-                  ) : (
-                    "Accepted"
-                  )}
-                </td>
+                      </div>
+                    ) : (
+                      "Accepted"
+                    )}
+                  </td>
 
-                <td>
-                  {/* <button
+                  <td>
+                    {/* <button
                     onClick={() => handleDelete(item._id)}
                     className='btn btn-ghost'
                   >
                     <FaTrash className='text-red-600 text-lg'></FaTrash>
                   </button> */}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

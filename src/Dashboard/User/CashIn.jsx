@@ -50,7 +50,7 @@ const CashIn = () => {
           value='Add Amount'
         />
       </form>
-      <h1>status: Pending</h1>
+      {/* <h1>{balance === "pending" ? "" : ""}</h1> */}
       <h1>balance: ${balance}</h1>
       <ToastContainer />
     </div>
