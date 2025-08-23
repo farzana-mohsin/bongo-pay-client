@@ -5,12 +5,14 @@ import { useState } from "react";
 const TransactionManagement = () => {
   const loader = useLoaderData();
   const [allRequests, setAllRequests] = useState(loader);
+  // get current user (agent) from context
 
   const handleAccept = (email, _id, amount) => {
     const reviewStatus = {
       email,
       amount,
       status: "approved",
+      // also send agent email
     };
     fetch(`${import.meta.env.VITE_API_URL}/cash-in/${_id}`, {
       method: "PATCH",
